@@ -15,7 +15,7 @@ if(myIp.equals("127.0.0.1")){
 }
 
 log.info "My IP: ${myIp}"
-def api_key=ApiKey.LOCATION_KEY
+def api_key = api.ApiKey.LOCATION_KEY
 def ipUrl = "http://api.ipinfodb.com/v3/ip-city/?key=${api_key}&ip=${myIp}&format=json"
 def jsonSlurper = new JsonSlurper()
 def locationInformation = null
@@ -35,7 +35,8 @@ request.longitude = locationInformation.longitude
 request.timezone = locationInformation.timeZone
 
 //Fetch the weather information
-def weatherKey=ApiKey.WEATHER_KEY
+def weatherKey= api.ApiKey.WEATHER_KEY
+
 def weatherUrl = "http://api.wunderground.com/api/${weatherKey}/conditions/q/${locationInformation.cityName}.json"
 def xmlSlurper = new XmlSlurper()
 def weatherInformation = null
@@ -59,5 +60,17 @@ request.moreUrl = currentObservation.ob_url
 request.icon = currentObservation.icon_url
 request.iconDesc = currentObservation.icon
 
+//Fetch places around
+def placesKey = "AIzaSyAgYZVjw15TQWGxAMFv0ayA8OlAtVFkyx0"
+def placesUrl = "http://maps.googleapis.com/maps/api/place/search/json?key=${placesKey}&location=${locationInformation.latitude},${locationInformation.longitude}&radius=10000&sensor=false"
+def placesList = null
+if (memcache[locationInformation.ipAddress] != null){
+    placesList = memcache[locationInformation.ipAddress]
+}else{
+    placesList = jsonSlurper.parseText(new URL(placesUrl).text)
+
+    memcache[locationInformation.ipAddress] = placesList
+}
+log.info placesList.toString
 
 forward '/WEB-INF/pages/index.gtpl'

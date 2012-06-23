@@ -1,4 +1,7 @@
 build
 .settings
-src/main/groovy/ApiKey.groovy
+src/main/groovy/api.ApiKey.groovy
+src/main/webapp/WEB-INF/appengine-generated/
+src/main/webapp/WEB-INF/classes/
+src/main/groovy/api/ApiKey.groovy
 

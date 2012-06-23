@@ -8,5 +8,10 @@
     </div>
 
 </div>
+<div class="row">
+    <div class="span4">
+        <% include '/WEB-INF/includes/bookHome.gtpl' %>
+    </div>
+</div>
 <% include '/WEB-INF/includes/footer.gtpl' %>
 

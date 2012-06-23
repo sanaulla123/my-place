@@ -30,6 +30,7 @@
 			<div class="nav-collapse">
 				<ul class="nav">
 					<li class="${request.servletPath == '/WEB-INF/pages/index.gtpl' ? 'active' : ''}"><a href="/">Home</a></li>
+
 				</ul>
 			</div>
 			<!--/.nav-collapse -->
